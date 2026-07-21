@@ -1,79 +1,24 @@
-const playButton = document.getElementById("playButton");
-const muteButton = document.getElementById("muteButton");
-const volume = document.getElementById("volume");
-const loader = document.getElementById("loader");
-const trackTitle = document.getElementById("trackTitle");
-const player = document.querySelector(".player");
-
-let playing = false;
-
-const radio = new Howl({
-    src: ["https://stream.zeno.fm/ki5fhhpz6lptv"],
+const player = new Howl({
+    src: ['https://stream.zeno.fm/ki5fhhpz6lptv'],
     html5: true,
-    format: ["mp3"],
-    volume: 0.8,
-    onplay: () => {
-        loader.style.display = "none";
-        player.classList.add("playing");
-        trackTitle.textContent = "DG TV LIVE RADIO • LIVE";
-        playButton.innerHTML = `
-            <svg viewBox="0 0 24 24">
-                <path fill="currentColor"
-                d="M6 5h4v14H6zm8 0h4v14h-4z"/>
-            </svg>`;
-        playing = true;
-    },
-    onload: () => {
-        loader.style.display = "none";
-    },
-    onloaderror: () => {
-        loader.style.display = "none";
-        trackTitle.textContent = "Errore caricamento stream";
-    },
-    onplayerror: () => {
-        loader.style.display = "none";
-        trackTitle.textContent = "Impossibile avviare lo stream";
-    },
-    onend: () => {
-        playing = false;
-    }
+    volume: 0.8
 });
 
-playButton.addEventListener("click", () => {
+const playBtn = document.getElementById('play');
+const volume = document.getElementById('volume');
 
-    if (!playing) {
-        loader.style.display = "block";
-        radio.play();
+playBtn.addEventListener('click', () => {
+
+    if (player.playing()) {
+        player.pause();
+        playBtn.textContent = '▶';
     } else {
-        radio.pause();
-        player.classList.remove("playing");
-        trackTitle.textContent = "Premere PLAY";
-        playButton.innerHTML = `
-            <svg viewBox="0 0 24 24">
-                <path fill="currentColor"
-                d="M8 5v14l11-7z"/>
-            </svg>`;
-        playing = false;
+        player.play();
+        playBtn.textContent = '❚❚';
     }
 
 });
 
-volume.addEventListener("input", () => {
-    radio.volume(volume.value / 100);
-    localStorage.setItem("dgtv-volume", volume.value);
-});
-
-const saved = localStorage.getItem("dgtv-volume");
-
-if (saved) {
-    volume.value = saved;
-    radio.volume(saved / 100);
-}
-
-muteButton.addEventListener("click", () => {
-
-    radio.mute(!radio.mute());
-
-    muteButton.textContent = radio.mute() ? "🔇" : "🔊";
-
+volume.addEventListener('input', (e) => {
+    player.volume(e.target.value / 100);
 });
