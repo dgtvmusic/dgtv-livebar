@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DG TV LIVE RADIO</title>
 
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="livebar">
+
+    <div class="logo">
+        <img src="assets/logo.png" alt="DG TV LIVE RADIO">
+    </div>
+
+    <div class="info">
+        <span class="live">🔴 ON AIR 24/7</span>
+        <h1>DG TV LIVE RADIO</h1>
+        <p>La musica non si ferma mai</p>
+    </div>
+
+    <button id="playButton">
+        ▶
+    </button>
+
+    <div class="volume">
+
+        🔊
+
+        <input
+        type="range"
+        id="volume"
+        min="0"
+        max="100"
+        value="80">
+
+    </div>
+
+</div>
+
+<audio id="radio" preload="none">
+<source src="https://stream.zeno.fm/TUO_STREAM" type="audio/mpeg">
+</audio>
+
+<script src="script.js"></script>
+
+</body>
+</html>
